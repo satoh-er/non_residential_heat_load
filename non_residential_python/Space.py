@@ -416,12 +416,9 @@ class Space:
             # 放射計算のマトリックス作成
             j = 0
             for nxtsurface in self.input_surfaces:
-                # print('i=', i, 'j=', j)
-                # print('FIA=', self.__matFIA[0][i])
-                # print('FF=', surface.FF(j))
                 # 対角要素
                 if i == j:
-                    self.__matAXd[i][j] = 1. + surface.RFA0 * surface.hi \
+                    self.__matAXd[i][j] = 1. + surface.RFA0 * (surface.hic + surface.hir) \
                                           - surface.RFA0 * surface.hir * nxtsurface.Fmrt
                 # 対角要素以外
                 else:
