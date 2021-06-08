@@ -150,22 +150,26 @@ def get_step_reps_of_wall(layers: List[Layer], laps: List[float], alp: List[floa
     # 伝達関数の係数を求めるための左辺行列を作成
     nroot = len(alp)
     matF = np.zeros((nlaps, nroot))
-    for lngI, laps in enumerate(laps):
+    for lngI, lap in enumerate(laps):
         for lngJ, root in enumerate(alp):
-            matF[lngI, lngJ] = laps / (laps + root)
+            matF[lngI, lngJ] = lap / (lap + root)
 
     # 最小二乗法のための係数行列を作成
-    # matU = np.zeros((self.__Nroot, self.__Nroot))
-    # for lngK in range(self.__Nroot):
-    #    for lngJ in range(self.__Nroot):
-    #        matU[lngK, lngJ] = np.sum([matF[:, lngK] * matF[:, lngJ]])
-    matU = np.dot(matF.T, matF)
+    matU = np.zeros((nroot, nroot))
+    for lngK in range(nroot):
+       for lngJ in range(nroot):
+           for lngI in range(nlaps):
+               matU[lngK, lngJ] += (laps[lngI] ** 2.0) * matF[lngI, lngK] * matF[lngI, lngJ]
+
+    # matU = np.dot(matF.T, matF)
 
     # 最小二乗法のための定数項行列を作成
     matCA = np.zeros((nroot, 1))
     matCT = np.zeros((nroot, 1))
-    matCA[:, 0] = np.sum([matF * matGA], axis=1)
-    matCT[:, 0] = np.sum([matF * matGT], axis=1)
+    for lngK in range(nroot):
+        for lngI in range(nlaps):
+            matCA[lngK, 0] += laps[lngI] ** 2.0 * matF[lngI, lngK] * matGA[lngI, 0]
+            matCT[lngK, 0] += laps[lngI] ** 2.0 * matF[lngI, lngK] * matGT[lngI, 0]
 
     # 最小二乗法のための係数行列の逆行列を計算
     matU_inv = np.linalg.inv(matU)
@@ -259,6 +263,8 @@ class ResponseFactor:
 
         # 固定根の設定
         alps = get_alps(WallType)
+        # 固定根, 初稿 1/(86400*365)、終項 1/600、項数 10
+        alps = np.logspace(np.log10(1.0 / (86400.0 * 365.0)), np.log10(1.0 / 600.0), 10)
 
         # ラプラス変数の設定
         laps = get_laps(alps)
