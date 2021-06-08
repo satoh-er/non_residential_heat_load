@@ -174,9 +174,6 @@ def calc_Hload(cdata, weather, spaces):
                     if 0:
                         for surface in space.input_surfaces:
                             rowlist.append('{0:.2f}'.format(surface.Tsx))
-                    # print('{0:.0f}'.format(space.nowWin), '{0:.0f}'.format(space.nowAC), '{0:.2f}'.format(space.Tr), \
-                    #         '{0:.0f}'.format(space.RH), '{0:.2f}'.format(space.MRT), '{0:.2f}'.format(space.PMV), \
-                    #         '{0:.0f}'.format(space.Lcs), '{0:.0f}'.format(space.Lr), '{0:.0f}'.format(space.Ll), "", end="")
             
             if cdata.FlgOrig(dtmNow):
                 OutList.append(rowlist)
@@ -196,31 +193,16 @@ def calc_Hload(cdata, weather, spaces):
 
     # 年間負荷の出力
     for space in spaces.values():
-        return [space.name, space.AnnualLoadcCs, space.AnnualLoadcHs, space.AnnualLoadcCl, space.AnnualLoadcHl]
+        print(space.name, space.AnnualLoadcCs, space.AnnualLoadcHs, space.AnnualLoadcCl, space.AnnualLoadcHl)
 
 
-# 実行
-def execute(case_name):
-    # js = open('1RCase1_最初の外壁削除.json', 'r', encoding='utf-8')
-    # js = open('1RCase1.json', 'r', encoding='utf-8')
-    # js = open('input_non_residential.json', 'r', encoding='utf-8')
-    
-    # print(os.getcwd())
+if __name__ == '__main__':
 
-    # js = open('input_room4.json', 'r', encoding='utf-8')
-    js = open('make_json/json/' + case_name + '.json', 'r', encoding='utf-8')
-    # js = open('input_residential.json', 'r', encoding='utf-8')
-    # js = open('検証用.json', 'r', encoding='utf-8')
+    js = open('input_non_residential.json', 'r', encoding='utf-8')
     d = json.load(js)
 
     # シミュレーション全体の設定条件の読み込み
     cdata = Gdata(**d['common'])
-
-    # 外表面の初期化
-    # exsurfaces = create_exsurfaces(d['ExSurface'])
-
-    # 外部日除けクラスの初期化
-    # sunbrks = create_sunbrks(d['Sunbrk'])
 
     # スペースの読み取り
     spaces = create_spaces(cdata, d['rooms'])
@@ -228,13 +210,6 @@ def execute(case_name):
     # 気象データの読み込み
     weather = Weather(cdata.wdfile, cdata.Latitude, cdata.Longitude, cdata.StMeridian)
 
-    # スケジュールの初期化
-    # schedule = Schedule()
-
     # 熱負荷計算の実行
-    return calc_Hload(cdata, weather, spaces)
+    calc_Hload(cdata, weather, spaces)
 
-
-if __name__ == '__main__':
-
-    execute('case_name')

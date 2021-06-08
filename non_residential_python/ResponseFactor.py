@@ -2,7 +2,7 @@ import math
 import numpy as np
 from Wall import Wall, Layer
 from typing import List
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 # ラプラス変数の設定
 def get_laps(alp: List[float]) -> List[float]:
@@ -31,7 +31,20 @@ def get_laps(alp: List[float]) -> List[float]:
 # 固定根の取得
 def get_alps(wall_type: str) -> List[float]:
     if wall_type == 'wall':
+        # return [
+            # 0.000002,
+            # 0.0000079,
+            # 0.000031205,
+            # 0.00012325975,
+            # 0.0004868760125,
+            # 0.001923160249375,
+            # 0.00759648298503125,
+            # 0.0300061077908735
+        # ]
+        # 公比3.95としとて2根追加
         return [
+            0.000002 / (3.95 ** 2),
+            0.000002 / (3.95 ** 1),
             0.000002,
             0.0000079,
             0.000031205,

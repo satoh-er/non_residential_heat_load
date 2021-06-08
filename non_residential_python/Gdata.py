@@ -77,28 +77,28 @@ class Gdata:
     def set_wdfile(self, Region: int):
         if Region == 1:
             # 1地域（北見）
-            wfile = 'weather_data\\1_Kitami.csv'
+            wfile = 'weather_data/1_Kitami.csv'
         elif Region == 2:
             # 2地域（岩見沢）
-            wfile = 'weather_data\\2_Iwamizawa.csv'
+            wfile = 'weather_data/2_Iwamizawa.csv'
         elif Region == 3:
             # 3地域（盛岡）
-            wfile = 'weather_data\\3_Morioka.csv'
+            wfile = 'weather_data/3_Morioka.csv'
         elif Region == 4:
             # 4地域（長野）
-            wfile = 'weather_data\\4_Nagano.csv'
+            wfile = 'weather_data/4_Nagano.csv'
         elif Region == 5:
             # 5地域（宇都宮）
-            wfile = 'weather_data\\5_Utsunomiya.csv'
+            wfile = 'weather_data/5_Utsunomiya.csv'
         elif Region == 6:
             # 6地域（岡山）
-            wfile = 'weather_data\\6_Okayama.csv'
+            wfile = 'weather_data/6_Okayama.csv'
         elif Region == 7:
             # 7地域（宮崎）
-            wfile = 'weather_data\\7_Miyazaki.csv'
+            wfile = 'weather_data/7_Miyazaki.csv'
         elif Region == 8:
             # 8地域（那覇）
-            wfile = 'weather_data\\8_Naha.csv'
+            wfile = 'weather_data/8_Naha.csv'
 
         return wfile
 
