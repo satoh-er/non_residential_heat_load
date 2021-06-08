@@ -150,16 +150,19 @@ def get_step_reps_of_wall(layers: List[Layer], laps: List[float], alp: List[floa
     # 伝達関数の係数を求めるための左辺行列を作成
     nroot = len(alp)
     matF = np.zeros((nlaps, nroot))
-    for lngI, laps in enumerate(laps):
+    for lngI, lap in enumerate(laps):
         for lngJ, root in enumerate(alp):
-            matF[lngI, lngJ] = laps / (laps + root)
+            matF[lngI, lngJ] = lap / (lap + root)
 
     # 最小二乗法のための係数行列を作成
-    # matU = np.zeros((self.__Nroot, self.__Nroot))
-    # for lngK in range(self.__Nroot):
-    #    for lngJ in range(self.__Nroot):
-    #        matU[lngK, lngJ] = np.sum([matF[:, lngK] * matF[:, lngJ]])
-    matU = np.dot(matF.T, matF)
+    matU = np.zeros((nroot, nroot))
+    for lngK in range(nroot):
+       for lngJ in range(nroot):
+           dblTemp = 0.0
+           for lngI in range(nlaps):
+               dblTemp += (laps[lngI] ** 2.0) * matF[lngI, lngK] * matF[lngI, lngJ]
+           matU[lngK, lngJ] = dblTemp
+    # matU = np.dot(matF.T, matF)
 
     # 最小二乗法のための定数項行列を作成
     matCA = np.zeros((nroot, 1))
